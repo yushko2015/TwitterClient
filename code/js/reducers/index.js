@@ -5,4 +5,4 @@ const allReducers = combineReducers({
     twitts: TwittsReducers
 })
 
-export default allReducers
+export default allReducers;
