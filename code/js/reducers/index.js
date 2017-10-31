@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
 import TwittsReducers from './twitt';
 import {routerReducer} from 'react-router-redux';
+import dataReducer from './dataReducer';
 
 
 const allReducers = combineReducers({
     routing: routerReducer,
-    twitts: TwittsReducers
+    twitts: TwittsReducers,
+    dataReducer: dataReducer
 })
 
 

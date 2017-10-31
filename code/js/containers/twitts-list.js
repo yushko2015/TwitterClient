@@ -2,17 +2,22 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {fetchData} from '../actions'
 
 class TwittsList extends Component{
+    componentWillMount(){
+        this.props.fetchData()
+    }
     showList () {
-        return this.props.twitts.map ((twitt)=>{
+        const {twitts} = this.props
+        return twitts.data.map ((twitt, key)=>{
             return (
-                <div className="twittsList">
+                <div className="twittsList"  key={key}>
                     <Card className="twitt" style={{width: 600}}>
-                        <CardHeader  title={twitt.tweet.user.name} subtitle="Subtitle" 
-                        avatar="images/ok-128.jpg"/>
+                        <CardHeader title={twitt.statuses.text} subtitle="Subtitle" 
+                        avatar="" />
                         <CardText >
-                            {twitt.tweet.text}
+                            {twitt.statuses.text}
                         </CardText>
                     </Card>
                 </div>  
@@ -21,17 +26,28 @@ class TwittsList extends Component{
     }
     render () {
         return (
-            <ul>
-                {this.showList()}
-            </ul>
+            <div>
+                {this.props.twitts.isFatching && <Text>Loading</Text>}
+                {
+                    this.props.twitts.data.length ? 
+                    this.showList()
+                    : null
+                }
+            </div>
         );
     }
 }
 
 function mapStateToProps (state){
     return{
-        twitts: state.twitts
+        twitts: state.dataReducer
     };
 }
 
-export default connect (mapStateToProps) (TwittsList);
+function mapDispatchToProps (dispatch, ownProps){
+    return{
+        fetchData: () => dispatch(fetchData(ownProps.query))
+    }
+}
+
+export default connect (mapStateToProps, mapDispatchToProps) (TwittsList);

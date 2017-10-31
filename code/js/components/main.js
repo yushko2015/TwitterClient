@@ -13,6 +13,7 @@ const Main = () => (
             <div className="container">
                 <Search />
             </div>
+            
         </div>
     </MuiThemeProvider>
 );
